@@ -6,6 +6,7 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "alembic>=1.16.1",
+    "fastapi-admin>=1.0.4",
     "fastapi[standard]>=0.115.12",
     "psycopg[binary]>=3.2.9",
     "pydantic>=2.11.5",
@@ -15,10 +16,14 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "factory-boy>=3.3.3",
+    "ipdb>=0.13.13",
     "pytest>=8.3.5",
+    "pytest-asyncio>=1.0.0",
     "pytest-cov>=6.1.1",
     "ruff>=0.11.12",
     "taskipy>=1.14.1",
+    "testcontainers>=4.10.0",
 ]
 
 [tool.ruff]
