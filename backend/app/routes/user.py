@@ -32,5 +32,4 @@ async def create_user(user: UserSchema, session: Session):
 
     except Exception as e:
         await session.rollback()
-        __import__('ipdb').set_trace()
         raise HTTPException(status_code=HTTPStatus.BAD_REQUEST, detail=str(e))

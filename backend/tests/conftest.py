@@ -19,17 +19,14 @@ def engine():
 
 @pytest_asyncio.fixture
 async def session(engine):
-    with PostgresContainer('postgres:16', driver='psycopg') as postgres:
-        engine = create_async_engine(postgres.get_connection_url())
+    async with engine.begin() as conn:
+        await conn.run_sync(table_registry.metadata.create_all)
 
-        async with engine.begin() as conn:
-            await conn.run_sync(table_registry.metadata.create_all)
+    async with AsyncSession(engine, expire_on_commit=False) as session:
+        yield session
 
-        async with AsyncSession(engine, expire_on_commit=False) as session:
-            yield session
-
-        async with engine.begin() as conn:
-            await conn.run_sync(table_registry.metadata.drop_all)
+    async with engine.begin() as conn:
+        await conn.run_sync(table_registry.metadata.drop_all)
 
 
 @pytest.fixture

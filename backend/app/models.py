@@ -10,12 +10,11 @@ class User:
     __tablename__ = 'users'
 
     id: Mapped[int] = mapped_column(init=False, primary_key=True)
-    username: Mapped[str] = mapped_column(unique=True)
+    username: Mapped[str]
     cpf: Mapped[str] = mapped_column(unique=True)
     email: Mapped[str] = mapped_column(unique=True)
     senha: Mapped[str]
 
     @validates('username')
-    def validar_username(self, key, name: str) -> str:
-        self._ = 'xpto'
+    def validar_username(self, key, name: str) -> str:  # noqa: PLR6301
         return sanitizar_name(name)
