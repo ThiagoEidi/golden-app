@@ -1,0 +1,27 @@
+services:
+  postgres_db:
+    image: postgres
+    env_file:
+      - ./backend/.env
+      
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+    ports: 
+      - 5432:5432
+
+  backend:
+    build: ./backend/
+    image: golden_app
+    entrypoint: ./entrypoint.sh
+    env_file:
+      - ./backend/.env
+    volumes:
+      - ./backend/migrations:/app/migrations
+    depends_on:
+      - postgres_db
+    ports: 
+      - 8080:8080
+
+volumes:
+  pgdata:

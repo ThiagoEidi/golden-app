@@ -1,4 +1,3 @@
-import factory
 import pytest
 import pytest_asyncio
 from fastapi.testclient import TestClient
@@ -7,7 +6,8 @@ from testcontainers.postgres import PostgresContainer
 
 from app.database import get_async_session
 from app.main import app
-from app.models import User, table_registry
+from app.models import table_registry
+from tests.factories import UserFactory
 
 
 @pytest.fixture(scope='session')
@@ -42,9 +42,9 @@ def client(session):
 
 
 @pytest_asyncio.fixture
-async def user(session):
-    password = 'testtest'
-    user = UserFactory()
+async def user(session, faker):
+    password = faker.password()
+    user = UserFactory(senha=password)
 
     session.add(user)
     await session.commit()
@@ -56,9 +56,9 @@ async def user(session):
 
 
 @pytest_asyncio.fixture
-async def other_user(session):
-    password = 'testtest'
-    user = UserFactory()
+async def other_user(session, faker):
+    password = faker.password()
+    user = UserFactory(senha=password)
 
     session.add(user)
     await session.commit()
@@ -67,13 +67,3 @@ async def other_user(session):
     user.clean_password = password
 
     return user
-
-
-class UserFactory(factory.Factory):
-    class Meta:
-        model = User
-
-    username = factory.Sequence(lambda n: f'test{n}')
-    email = factory.LazyAttribute(lambda obj: f'{obj.username}@test.com')
-    cpf = factory.LazyAttribute(lambda obj: f'{obj.username}@example.com')
-    senha = factory.LazyAttribute(lambda obj: f'{obj.username}@example.com')

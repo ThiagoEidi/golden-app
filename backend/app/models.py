@@ -11,7 +11,6 @@ class User:
 
     id: Mapped[int] = mapped_column(init=False, primary_key=True)
     username: Mapped[str]
-    cpf: Mapped[str] = mapped_column(unique=True)
     email: Mapped[str] = mapped_column(unique=True)
     senha: Mapped[str]
 

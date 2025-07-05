@@ -16,7 +16,6 @@ async def create_user(user: UserSchema, session: Session):
     try:
         db_user = User(
             username=user.username,
-            cpf=user.cpf,
             email=user.email,
             senha=user.senha,
         )

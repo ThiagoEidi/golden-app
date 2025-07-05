@@ -8,7 +8,6 @@ class Message(BaseModel):
 
 class UserSchema(BaseModel):
     username: str
-    cpf: str
     email: EmailStr
     senha: str
 
