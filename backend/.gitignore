@@ -5,7 +5,11 @@ build/
 dist/
 wheels/
 *.egg-info
+.coverage
 
 # Virtual environments
 .venv
 database.db
+
+#Secret files
+.env
